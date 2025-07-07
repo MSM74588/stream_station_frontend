@@ -59,7 +59,7 @@ const items = [
         iconBgHover: "group-hover/button:bg-blue-600/30",
         borderStyle: "border-2 border-blue-600/20",
         iconColor: "text-blue-500",
-        verticalAlign: "right-[0px]"
+        align: "right-[0px]"
     },
     {
         title: "Favourites",
@@ -70,7 +70,7 @@ const items = [
         iconBgHover: "group-hover/button:bg-rose-600/30",
         borderStyle: "border-2 border-rose-600/20",
         iconColor: "text-rose-500",
-        verticalAlign: "top-[0px]"
+        align: "top-[0px]"
     },
     {
         title: "Radio",
@@ -81,7 +81,7 @@ const items = [
         iconBgHover: "group-hover/button:bg-emerald-600/30",
         borderStyle: "border-2 border-emerald-600/20",
         iconColor: "text-emerald-500",
-        verticalAlign: "top-[1px]"
+        align: "top-[1px]"
     },
     {
         title: "Commands",
@@ -92,7 +92,7 @@ const items = [
         iconBgHover: "group-hover/button:bg-yellow-600/30",
         borderStyle: "border-2 border-yellow-600/20",
         iconColor: "text-yellow-500",
-        verticalAlign: "top-[1px]"
+        align: "top-[1px]"
     },
 ]
 
@@ -104,25 +104,35 @@ const services = [
         iconBg: "bg-rose-600/20",
         iconBgHover: "group-hover/button:bg-rose-600/30",
         borderStyle: "border-2 border-rose-600/20",
-        verticalAdjustment: "",
+        adjustment: "",
         iconColor: "text-red-500",
-        verticalAlign: "top-[1px]"
+        align: "top-[1px]"
     },
     {
         title: "Spotify",
         icon: SpotifyIcon,
-        hoverBg: "over:bg-green-500/10",
+        hoverBg: "hover:bg-green-500/10",
         iconBg: "bg-green-600/20",
         iconBgHover: "group-hover/button:bg-green-500/30",
         borderStyle: "border-2 border-green-600/20",
-        verticalAdjustment: "",
         iconColor: "text-green-500",
+    },
+    {
+        title: "Local",
+        icon: CassetteTape,
+        hoverBg: "hover:bg-yellow-400/10",
+        iconBg: "bg-yellow-500/20",
+        iconBgHover: "group-hover:bg-yellow-500/30",
+        borderStyle: "border-2 border-yellow-500/20",
+        align: "top-[1px]",
+        iconColor: "text-yellow-500",
     }
+
 ]
 
 export function AppSidebar() {
     return (
-        <Sidebar>
+        <Sidebar className="">
             <SidebarHeader>
                 <SidebarGroup>
                     <MainBlock />
@@ -130,17 +140,22 @@ export function AppSidebar() {
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
-                    <SidebarGroupLabel>Application</SidebarGroupLabel>
+                    {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title} >
-                                    <SidebarMenuButton asChild size="lg" className={`group/button flex flex-row items-center gap-x-3 font-sans font-extrabold transition-all duration-300 rounded-lg ${item.hoverBg}`}>
+                                    <SidebarMenuButton asChild size="lg" className={`group/button flex flex-row 
+                                        items-center gap-x-3 font-sans font-extrabold transition-all duration-300 
+                                        rounded-lg group-hover/button:shadow-xl/30 shadow-blue-500/50 
+                                        
+                                        ${item.hoverBg}`}>
                                         <a href={item.url}>
-                                            <div className={`aspect-square h-10 rounded-2xl group-hover/button:rounded-3xl flex items-center justify-center transition-all duration-150 ${item.verticalAdjustment} ${item.iconBg} ${item.iconBgHover} ${item.borderStyle}`}>
-                                                <item.icon className={`relative ${item.verticalAlign ?? ""} ${item.iconColor}`} />
+                                            <div className={`aspect-square h-10 rounded-2xl 
+                                                group-hover/button:rounded-3xl group-hover/button:scale-200 flex items-center justify-center transition-all duration-300 ${item.iconBg} ${item.iconBgHover} ${item.borderStyle}`}>
+                                                <item.icon className={`relative ${item.align ?? ""} ${item.iconColor} z-0`} />
                                             </div>
-                                            <p className={`hidden lg:block font-semibold ${JkSans.className}`}>{item.title}</p>
+                                            <p className={`font-semibold ${JkSans.className} z-50`}>{item.title}</p>
                                         </a>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
@@ -162,11 +177,11 @@ export function AppSidebar() {
                                     >
                                         <a href={service.url}>
                                             <div
-                                                className={`aspect-square h-10 rounded-2xl group-hover/button:rounded-3xl flex items-center justify-center transition-all duration-150 ${service.verticalAdjustment ?? ""} ${service.iconBg} ${service.iconBgHover} ${service.borderStyle}`}
+                                                className={`group-hover/button:scale-200  aspect-square h-10 rounded-2xl group-hover/button:rounded-3xl flex items-center justify-center transition-all duration-150 ${service.verticalAdjustment ?? ""} ${service.iconBg} ${service.iconBgHover} ${service.borderStyle}`}
                                             >
-                                                <service.icon className={`w-7 h-7 p-1 ${service.iconColor}`} />
+                                                <service.icon className={`w-7 h-7 p-1 ${service.align} ${service.iconColor} z-50`} />
                                             </div>
-                                            <p className={`hidden lg:block font-semibold ${JkSans.className} select-auto cursor-pointer`}>{service.title}</p>
+                                            <p className={`font-semibold ${JkSans.className} select-auto cursor-pointer z-99`}>{service.title}</p>
                                         </a>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
@@ -196,13 +211,13 @@ export function AppSidebar() {
 
 
 function MainBlock() {
-  return (
-    <div className="border-border border-2 w-full min-h-[15em] overflow-hidden stretch flex flex-col rounded-lg">
-      <div className="bg-secondary flex flex-grow"></div>
-      <div className="bg-background p-3 items-center align-middle flex flex-row gap-3">
-        <Clock4Icon color="white" size={20} />
-        <p className="font-sans">12:39 AM</p>
-      </div>
-    </div>
-  );
+    return (
+        <div className="border-border border-2 w-full min-h-[15em] overflow-hidden stretch flex flex-col rounded-lg">
+            <div className="bg-secondary flex flex-grow"></div>
+            <div className="bg-background p-3 items-center align-middle flex flex-row gap-3">
+                <Clock4Icon color="white" size={20} />
+                <p className="font-sans">12:39 AM</p>
+            </div>
+        </div>
+    );
 }
