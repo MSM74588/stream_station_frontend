@@ -13,24 +13,30 @@ import {
 
 const JkSans = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
-export default function ResizableDemo() {
+// export default function ResizableDemo() {
+//   return (
+//     <ResizablePanelGroup
+//       direction="horizontal"
+//       className="min-h-dvh min-w-full rounded-lg"
+//     >
+//       <ResizablePanel defaultSize={25} className="bg-secondary">
+//         <div className="border-r-2 border-border bg-secondary pl-[20%] pr-2 h-full">
+//           <Sidebar />
+//         </div>
+//       </ResizablePanel>
+//       <ResizableHandle />
+//       <ResizablePanel defaultSize={75}>
+//         <div className="flex h-full items-center justify-center p-6">
+//           <span className="font-semibold">Content</span>
+//         </div>
+//       </ResizablePanel>
+//     </ResizablePanelGroup>
+//   )
+// }
+
+export default function Test() {
   return (
-    <ResizablePanelGroup
-      direction="horizontal"
-      className="min-h-dvh min-w-full rounded-lg"
-    >
-      <ResizablePanel defaultSize={25} className="bg-secondary">
-        <div className="border-r-2 border-border bg-secondary pl-[20%] pr-2 h-full">
-          <Sidebar />
-        </div>
-      </ResizablePanel>
-      <ResizableHandle />
-      <ResizablePanel defaultSize={75}>
-        <div className="flex h-full items-center justify-center p-6">
-          <span className="font-semibold">Content</span>
-        </div>
-      </ResizablePanel>
-    </ResizablePanelGroup>
+    <h1>Hello</h1>
   )
 }
 
