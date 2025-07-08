@@ -1,7 +1,11 @@
+"use client"
+
 import { Calendar, Home, Inbox, Search, Settings, CassetteTape, Clock4Icon, MoonStarIcon, Music, RadioTower, Terminal, Wrench, Heart, History, ExternalLink } from "lucide-react"
 
 import { Plus_Jakarta_Sans } from 'next/font/google'
 const JkSans = Plus_Jakarta_Sans({ subsets: ['latin'] })
+
+import { usePathname } from 'next/navigation'
 
 import {
     Sidebar,
@@ -52,47 +56,52 @@ export const SpotifyIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 const items = [
     {
         title: "History",
-        url: "#",
+        url: "/",
         icon: History,
         hoverBg: "hover:bg-blue-500/10",
-        iconBg: "bg-blue-600/20",
+        iconBg: "bg-blue-600/10",
         iconBgHover: "group-hover/button:bg-blue-600/30",
         borderStyle: "border-2 border-blue-600/20",
         iconColor: "text-blue-500",
-        align: "right-[0px]"
+        align: "right-[0px]",
+        background: "bg-blue-500/10",
+
     },
     {
         title: "Favourites",
-        url: "#",
+        url: "/favourites",
         icon: Heart,
         hoverBg: "hover:bg-rose-500/10",
-        iconBg: "bg-rose-600/20",
+        iconBg: "bg-rose-600/10",
         iconBgHover: "group-hover/button:bg-rose-600/30",
         borderStyle: "border-2 border-rose-600/20",
         iconColor: "text-rose-500",
-        align: "top-[0px]"
+        align: "top-[0px]",
+        background: "bg-rose-500/10",
     },
     {
         title: "Radio",
-        url: "#",
+        url: "/radio",
         icon: RadioTower,
         hoverBg: "hover:bg-emerald-500/10",
         iconBg: "bg-emerald-600/20",
         iconBgHover: "group-hover/button:bg-emerald-600/30",
         borderStyle: "border-2 border-emerald-600/20",
         iconColor: "text-emerald-500",
-        align: "top-[1px]"
+        align: "top-[1px]",
+        background: "bg-emerald-500/10",
     },
     {
         title: "Commands",
-        url: "#",
+        url: "/commands",
         icon: Terminal,
         hoverBg: "hover:bg-yellow-500/10",
         iconBg: "bg-yellow-600/20",
         iconBgHover: "group-hover/button:bg-yellow-600/30",
         borderStyle: "border-2 border-yellow-600/20",
         iconColor: "text-yellow-500",
-        align: "top-[1px]"
+        align: "top-[1px]",
+        background: "bg-yellow-500/10",
     },
 ]
 
@@ -101,12 +110,14 @@ const services = [
         title: "Youtube",
         icon: YoutubeIcon,
         hoverBg: "hover:bg-rose-500/10",
-        iconBg: "bg-rose-600/20",
+        iconBg: "bg-red-600/20",
         iconBgHover: "group-hover/button:bg-rose-600/30",
         borderStyle: "border-2 border-rose-600/20",
         adjustment: "",
         iconColor: "text-red-500",
-        align: "top-[1px]"
+        align: "top-[1px]",
+        url: "/youtube",
+        background: "bg-red-500/10",
     },
     {
         title: "Spotify",
@@ -116,9 +127,11 @@ const services = [
         iconBgHover: "group-hover/button:bg-green-500/30",
         borderStyle: "border-2 border-green-600/20",
         iconColor: "text-green-500",
+        url: "/spotify",
+        background: "bg-green-500/10",
     },
     {
-        title: "Local",
+        title: "Local MPD",
         icon: CassetteTape,
         hoverBg: "hover:bg-yellow-400/10",
         iconBg: "bg-yellow-500/20",
@@ -126,11 +139,15 @@ const services = [
         borderStyle: "border-2 border-yellow-500/20",
         align: "top-[1px]",
         iconColor: "text-yellow-500",
+        url: "/local",
+        background: "bg-yellow-500/10",
     }
 
 ]
 
 export function AppSidebar() {
+    const pathname = usePathname();
+    console.log(pathname)
     return (
         <Sidebar className="">
             <SidebarHeader>
@@ -143,23 +160,27 @@ export function AppSidebar() {
                     {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {items.map((item) => (
-                                <SidebarMenuItem key={item.title} >
-                                    <SidebarMenuButton asChild size="lg" className={`group/button flex flex-row 
-                                        items-center gap-x-3 font-sans font-extrabold transition-all duration-300 
-                                        rounded-lg group-hover/button:shadow-xl/30 shadow-blue-500/50 
-                                        
-                                        ${item.hoverBg}`}>
-                                        <a href={item.url}>
-                                            <div className={`aspect-square h-10 rounded-2xl 
-                                                group-hover/button:rounded-3xl group-hover/button:scale-200 flex items-center justify-center transition-all duration-300 ${item.iconBg} ${item.iconBgHover} ${item.borderStyle}`}>
-                                                <item.icon className={`relative ${item.align ?? ""} ${item.iconColor} z-0`} />
-                                            </div>
-                                            <p className={`font-semibold ${JkSans.className} z-50`}>{item.title}</p>
-                                        </a>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
+                            {items.map((item) => {
+                                const isActive = item.url === pathname;
+                                return (
+                                    <SidebarMenuItem key={item.title} >
+                                        <SidebarMenuButton asChild size="lg" className={`group/button flex flex-row 
+                                            items-center gap-x-3 font-sans font-extrabold transition-all duration-300 
+                                            rounded-lg
+                                            ${item.hoverBg}
+                                            ${isActive ? `${item.background}` : ""}
+                                            `}>
+                                            <a href={item.url}>
+                                                <div className={`aspect-square h-10 rounded-2xl 
+                                                    group-hover/button:rounded-3xl group-hover/button:scale-200 ${isActive ? "scale-200 rounded-3xl" : ""} flex items-center justify-center transition-all duration-300 ${item.iconBg} ${item.iconBgHover} ${item.borderStyle}`}>
+                                                    <item.icon className={`relative ${item.align ?? ""} ${item.iconColor} z-0`} />
+                                                </div>
+                                                <p className={`font-semibold ${JkSans.className} z-50 ${isActive ? `${item.iconColor}` : ""}`}>{item.title}</p>
+                                            </a>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                );
+                            })}
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
@@ -167,30 +188,36 @@ export function AppSidebar() {
                 <SidebarGroup>
                     <SidebarGroupLabel>Music Services</SidebarGroupLabel>
                     <SidebarContent>
-                        <SidebarMenu>
-                            {services.map((service) => (
+                        {services.map((service) => {
+                            const isActive = service.url === pathname;
+                            return (
                                 <SidebarMenuItem key={service.title}>
                                     <SidebarMenuButton
                                         asChild
                                         size="lg"
-                                        className={`group/button flex flex-row items-center gap-x-3 font-sans font-extrabold transition-all duration-300 rounded-lg ${service.hoverBg} cursor-pointer`}
+                                        className={`group/button flex flex-row items-center gap-x-3 font-sans font-extrabold transition-all duration-300 rounded-lg
+                    ${service.hoverBg}
+                    ${isActive ? `${service.background}` : ""}
+                `}
                                     >
                                         <a href={service.url}>
                                             <div
-                                                className={`group-hover/button:scale-200  aspect-square h-10 rounded-2xl group-hover/button:rounded-3xl flex items-center justify-center transition-all duration-150 ${service.verticalAdjustment ?? ""} ${service.iconBg} ${service.iconBgHover} ${service.borderStyle}`}
+                                                className={`aspect-square h-10 rounded-2xl 
+                            group-hover/button:rounded-3xl group-hover/button:scale-200 ${isActive ? "scale-200 rounded-3xl" : ""} flex items-center justify-center transition-all duration-300 ${service.iconBg} ${service.iconBgHover} ${service.borderStyle}`}
                                             >
-                                                <service.icon className={`w-7 h-7 p-1 ${service.align} ${service.iconColor} z-50`} />
+                                                <service.icon className={`w-7 h-7 p-1 ${service.align ?? ""} ${service.iconColor} z-0`} />
                                             </div>
-                                            <p className={`font-semibold ${JkSans.className} select-auto cursor-pointer z-99`}>{service.title}</p>
+                                            <p className={`font-semibold ${JkSans.className} z-50 ${isActive ? `${service.iconColor}` : ""}`}>{service.title}</p>
                                         </a>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
-                            ))}
-                        </SidebarMenu>
+                            );
+                        })}
+
                     </SidebarContent>
                 </SidebarGroup>
 
-            </SidebarContent>
+            </SidebarContent >
 
             <SidebarFooter>
                 <SidebarGroup className="flex items-start">
@@ -205,7 +232,7 @@ export function AppSidebar() {
                     </Button>
                 </SidebarGroup>
             </SidebarFooter>
-        </Sidebar>
+        </Sidebar >
     )
 }
 

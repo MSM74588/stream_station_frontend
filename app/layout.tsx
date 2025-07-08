@@ -44,7 +44,7 @@ export default function RootLayout({
         >
           <SidebarProvider>
             <AppSidebar />
-            <main>
+            <main className="max-w-full">
               <SidebarTrigger />
               {children}
             </main>
