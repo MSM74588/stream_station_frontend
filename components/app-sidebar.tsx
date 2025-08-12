@@ -1,6 +1,6 @@
 "use client"
 
-import { Calendar, Home, Inbox, Search, Settings, CassetteTape, Clock4Icon, MoonStarIcon, Music, RadioTower, Terminal, Wrench, Heart, History, ExternalLink } from "lucide-react"
+import { Calendar, Home, Inbox, Search, Settings, CassetteTape, Clock4Icon, MoonStarIcon, Music, RadioTower, Terminal, Wrench, Heart, History, ExternalLink, MonitorPlay, Play, FileMusic } from "lucide-react"
 
 import { Plus_Jakarta_Sans } from 'next/font/google'
 const JkSans = Plus_Jakarta_Sans({ subsets: ['latin'] })
@@ -55,15 +55,27 @@ export const SpotifyIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 // Menu items.
 const items = [
     {
+        title: "Player",
+        icon: Play,
+        hoverBg: "hover:bg-emerald-400/10",
+        iconBg: "bg-emerald-500/20",
+        iconBgHover: "group-hover:bg-emerald-500/30",
+        borderStyle: "border-2 border-emerald-500/20",
+        align: "",
+        iconColor: "text-emerald-500",
+        url: "/player",
+        background: "bg-emerald-500/10",
+    },
+    {
         title: "History",
-        url: "/",
+        url: "/history",
         icon: History,
         hoverBg: "hover:bg-blue-500/10",
         iconBg: "bg-blue-600/10",
         iconBgHover: "group-hover/button:bg-blue-600/30",
         borderStyle: "border-2 border-blue-600/20",
         iconColor: "text-blue-500",
-        align: "right-[0px]",
+        align: "right-[0px] top-[0px]",
         background: "bg-blue-500/10",
 
     },
@@ -80,8 +92,8 @@ const items = [
         background: "bg-rose-500/10",
     },
     {
-        title: "Radio",
-        url: "/radio",
+        title: "Podcasts",
+        url: "/podcasts",
         icon: RadioTower,
         hoverBg: "hover:bg-emerald-500/10",
         iconBg: "bg-emerald-600/20",
@@ -141,7 +153,8 @@ const services = [
         iconColor: "text-yellow-500",
         url: "/local",
         background: "bg-yellow-500/10",
-    }
+    },
+    
 
 ]
 
@@ -149,10 +162,12 @@ export function AppSidebar() {
     const pathname = usePathname();
     console.log(pathname)
     return (
-        <Sidebar className="">
+        <Sidebar>
             <SidebarHeader>
                 <SidebarGroup>
-                    <MainBlock />
+                    <div className="md:block hidden">
+                        <MainBlock />
+                    </div>
                 </SidebarGroup>
             </SidebarHeader>
             <SidebarContent>
@@ -191,7 +206,7 @@ export function AppSidebar() {
                         {services.map((service) => {
                             const isActive = service.url === pathname;
                             return (
-                                <SidebarMenuItem key={service.title}>
+                                <SidebarMenuItem key={service.title} className="list-none">
                                     <SidebarMenuButton
                                         asChild
                                         size="lg"

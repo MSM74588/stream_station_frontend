@@ -10,6 +10,8 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
+import Crumbs from "@/components/crumbs";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const JkSans = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
@@ -36,7 +38,10 @@ const JkSans = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
 export default function Test() {
   return (
-    <h1>Hello</h1>
+    <>
+      Home
+    </>
+
   )
 }
 
