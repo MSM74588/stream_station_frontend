@@ -31,6 +31,7 @@ import {
 } from "@/components/credenza"
 
 import createLongPressHandlers from "@/lib/LongPressHandler"
+import { HandlePlayCommand } from '@/lib/requests/PlayerHandlers';
 
 
 // const fetcher = (url: string) => fetch(url).then(res => res.json())
@@ -60,30 +61,30 @@ type SongsData = {
 };
 
 
-function handlePlay(url: string) {
-    toast.info("Play Request sent.")
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/player/play`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ url: url }),
-    })
-        .then((res) => {
-            if (!res.ok) {
-                toast.error('Failed to Play');
-                throw new Error("Failed to play");
-            }
+// function handlePlay(url: string) {
+//     toast.info("Play Request sent.")
+//     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/player/play`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ url: url }),
+//     })
+//         .then((res) => {
+//             if (!res.ok) {
+//                 toast.error('Failed to Play');
+//                 throw new Error("Failed to play");
+//             }
 
-            return res.json();
-        })
-        .then((data) => {
-            console.log("Playing song:", data);
-        })
-        .catch((err) => {
-            console.error("Error playing song:", err);
-        });
-}
+//             return res.json();
+//         })
+//         .then((data) => {
+//             console.log("Playing song:", data);
+//         })
+//         .catch((err) => {
+//             console.error("Error playing song:", err);
+//         });
+// }
 
 async function handleAddToFavorites(song: Song) {
     try {
@@ -207,7 +208,9 @@ export function Table({ className }: { className?: string }) {
             cell: (info) => (
                 <span className='flex-grow grid place-items-center transition-all duration-500'>
                     <div className=' py-2 group-hover/cell:scale-[250%] transition group-hover/cell:rounded-3xl z-10'
-                        onClick={() => handlePlay(info.row.original.spotify_url)}
+                        // onClick={() => handlePlay(info.row.original.spotify_url)}
+                        onClick={() => HandlePlayCommand(info.row.original.spotify_url, null, "playnow")}
+
                     >
 
                         <img className='h-8 w-8 aspect-square  content group-hover/cell:shadow-lg group-hover/cell:border-4 border-neutral-900 shadow outline group-hover/cell:rounded-3xl rounded-xs
@@ -407,7 +410,7 @@ export function Table({ className }: { className?: string }) {
                                     style={{
                                         transform: `translateY(${virtualRow.start}px)`,
                                     }}
-                                // onDoubleClick={() => handlePlay(row.original.spotify_url)}
+                                onDoubleClick={() => HandlePlayCommand(row.original.spotify_url, null, "playnow")}
                                 >
                                     <div className='group/cell grid grid-cols-[7vw_1fr_1fr_7vw] gap-x-4 h-12 dark:hover:bg-neutral-700/20 cursor-pointer rounded transition duration-75 absolute w-full active:scale-[99%]'>
                                         {row.getVisibleCells().map(cell => (
@@ -469,7 +472,7 @@ export function Table({ className }: { className?: string }) {
                                 >
                                     <div
                                         className="flex items-start p-3 gap-3 rounded-lg hover:bg-neutral-700/70 transition active:scale-[95%] group mb-2"
-                                        onDoubleClick={() => handlePlay(row.original.spotify_url)}
+                                        onDoubleClick={() => HandlePlayCommand(row.original.spotify_url, null, "playnow")}
                                         {...longPressHandlers}
                                     >
                                         <div className="text-lg font-semibold text-white/80 min-w-[3rem] text-center pt-1 select-none flex-shrink-0">
@@ -531,7 +534,9 @@ function SongCredenza({ open, onOpenChange, data }: {
                         </a>
                     </div>
                     <div className='flex flex-col p-2'>
-                        <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListStart /> Play next</Button>
+                        <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'
+                        onClick={() => HandlePlayCommand(data?.spotify_url, null, "playnext")}
+                        ><ListStart /> Play next</Button>
                         <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListPlus /> Add to queue</Button>
                         <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListX /> Clear queue and Play</Button>
                         <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-pink-500/10'

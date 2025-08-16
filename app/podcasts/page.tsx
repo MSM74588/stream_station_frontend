@@ -41,6 +41,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
+import { HandlePlayCommand } from "@/lib/requests/PlayerHandlers"
 
 // Zustand store for search state
 type SearchStore = {
@@ -730,7 +731,9 @@ function EpCredenza({ open, onOpenChange, data }: {
                     </div>
                     <div className='flex flex-col p-2'>
                         <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><Play /> Play now</Button>
-                        <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListStart /> Play next</Button>
+                        <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'
+                        onClick={() => HandlePlayCommand(data.url, null, "playnext")}
+                        ><ListStart /> Play next</Button>
                         <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListPlus /> Add to Queue</Button>
                         <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListX /> Clear queue and Play</Button>
                     </div>

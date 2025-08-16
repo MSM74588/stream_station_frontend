@@ -18,6 +18,7 @@ import {
 } from "@/components/credenza"
 import { Button } from './ui/button';
 import createLongPressHandlers from '@/lib/LongPressHandler';
+import { HandlePlayCommand } from '@/lib/requests/PlayerHandlers';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -80,6 +81,7 @@ export function FavouritesSection() {
                 return (
                   <div
                     {...longPressHandlers}
+                    onDoubleClick={() => HandlePlayCommand(null, song.url, "playnow")}
                     key={song.id}
                     className="flex items-start space-x-3 rounded-md border border-neutral-700 bg-neutral-800/50 p-2 hover:bg-white/10 transition select-none active:scale-[99%] group"
                   >
@@ -141,7 +143,9 @@ function FavCredenza({ open, onOpenChange, data }: {
             </a>
           </div>
           <div className='flex flex-col p-2'>
-            <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListStart /> Play next</Button>
+            <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'
+            onClick={() => HandlePlayCommand(data.url, null, "playnext")}
+            ><ListStart /> Play next</Button>
             <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListPlus /> Add to queue</Button>
             <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListX /> Clear queue and Play</Button>
             <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-pink-500/10'

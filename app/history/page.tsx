@@ -273,19 +273,19 @@ function FavCredenza({ open, onOpenChange, data }: {
               <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><Film /> Open Podcast Source</Button>
             </a>
           </div>
-           <div className='flex flex-col p-2'>
-                                  <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListStart /> Play next</Button>
-                                  <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListPlus /> Add to queue</Button>
-                                  <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListX /> Clear queue and Play</Button>
-                                  <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-pink-500/10'
-                                      onClick={() => { if (data) handleAddToFavorites(data) }}
-                                  ><Star /> Save to Favourites</Button>
-          
-          
-                              </div>
-                              <div className='flex w-full flex-col p-2'>
-                                  <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-violet-500/10'><FolderDown /> Download</Button>
-                              </div>
+          <div className='flex flex-col p-2'>
+            <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListStart /> Play next</Button>
+            <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListPlus /> Add to queue</Button>
+            <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListX /> Clear queue and Play</Button>
+            <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-pink-500/10'
+              onClick={() => { if (data) handleAddToFavorites(data) }}
+            ><Star /> Save to Favourites</Button>
+
+
+          </div>
+          <div className='flex w-full flex-col p-2'>
+            <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-violet-500/10'><FolderDown /> Download</Button>
+          </div>
           <div className='flex flex-col p-2'>
             <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListStart /> Play Latest Episode</Button>
             {/* <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListPlus /> Hello</Button> */}

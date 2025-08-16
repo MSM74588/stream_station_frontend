@@ -50,6 +50,7 @@ import {
   CredenzaTrigger,
 } from "@/components/credenza"
 import createLongPressHandlers from '@/lib/LongPressHandler';
+import { HandlePlayCommand } from '@/lib/requests/PlayerHandlers';
 
 const fetcher = async (url: string): Promise<SongsData> => {
   const res = await fetch(url);
@@ -168,7 +169,7 @@ export function Table({ className }: { className?: string }) {
         <span className='flex-grow grid place-items-center transition-all duration-500'>
           <div className='hidden group-hover/cell:inline-block invisible group-hover/cell:visible'>
             <Button
-              onClick={() => handlePlay(info.row.original.title)}
+              onClick={() => HandlePlayCommand(null, info.row.original.title, "playnow")}
               className='cursor-pointer shadow-lg shadow-blue-500/50 outline-4 ring ring-indigo-500/70 hover:scale-200 hover:rounded-full rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30'
               variant={'secondary'}>
               <Play className='aspect-square h-8 w-8' size={24} />
@@ -298,7 +299,7 @@ export function Table({ className }: { className?: string }) {
                   ref={(el) => desktopVirtualizer.measureElement(el)}
                   className='absolute left-0 right-0'
                   style={{ transform: `translateY(${virtualRow.start}px)` }}
-                  onDoubleClick={() => handlePlay(row.original.title)}
+                  onDoubleClick={() => HandlePlayCommand(null, row.original.title, "playnow" )}
                 >
                   <div className='active:scale-[99%] group/cell grid grid-cols-[7vw_1fr_1fr_10vw_1fr] gap-x-4 h-12 dark:hover:bg-white/10 cursor-pointer group rounded duration-75 transition mb-1'>
                     {row.getVisibleCells().map(cell => (
@@ -348,7 +349,7 @@ export function Table({ className }: { className?: string }) {
                   style={{ transform: `translateY(${virtualRow.start}px)` }}
                 >
                   <div className='flex items-start p-3 gap-3 rounded-lg hover:bg-neutral-700/70 transition group active:scale-[95%] select-none hover:shadow-lg mb-2'
-                    // onDoubleClick={() => handlePlay(row.original.title)}
+                    onDoubleClick={() => HandlePlayCommand(null, row.original.title, "playnow" )}
                     {...longPressHandlers}
                   >
                     <div className='text-lg font-semibold text-white/80 min-w-[3rem] text-center pt-1 flex-shrink-0'>{row.original.serial}</div>
@@ -375,7 +376,7 @@ export function Table({ className }: { className?: string }) {
 function SongCredenza({ open, onOpenChange, data }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  data: Song | null;
+  data: Song;
 }) {
   return (
     <Credenza open={open} onOpenChange={onOpenChange}>
@@ -396,7 +397,9 @@ function SongCredenza({ open, onOpenChange, data }: {
             </a>
           </div>
           <div className='flex flex-col p-2'>
-            <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListStart /> Play next</Button>
+            <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'
+            onClick={() => HandlePlayCommand(null, data.title, "playnext")}
+            ><ListStart /> Play next</Button>
             <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListPlus /> Add to queue</Button>
             <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListX /> Clear queue and Play</Button>
             <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-pink-500/10'

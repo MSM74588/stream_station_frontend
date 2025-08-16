@@ -19,6 +19,7 @@ import {
 import { Button } from '@/components/ui/button';
 import createLongPressHandlers from '@/lib/LongPressHandler';
 import PodcastImage from '../podcastImage';
+import { HandlePlayCommand } from '@/lib/requests/PlayerHandlers';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -145,7 +146,9 @@ function FavCredenza({ open, onOpenChange, data }: {
                         </a>
                     </div>
                     <div className='flex flex-col p-2'>
-                        <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListStart /> Play next</Button>
+                        <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'
+                        onClick={() => HandlePlayCommand(data.url, null, "playnext")}
+                        ><ListStart /> Play next</Button>
                         <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListPlus /> Add to queue</Button>
                         <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-green-500/10'><ListX /> Clear queue and Play</Button>
                         <Button variant={'ghost'} className='font-semibold justify-start active:scale-[99%] active:bg-pink-500/10'
