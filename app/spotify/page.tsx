@@ -37,24 +37,49 @@ import { HandlePlayCommand } from '@/lib/requests/PlayerHandlers';
 // const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 // ✅ Modified fetcher for SWR
+// const fetcher = async (url: string): Promise<SongsData> => {
+//     const res = await fetch(url);
+//     if (!res.ok) {
+//         throw new Error(`Fetch failed: ${res.status}`);
+//     }
+//     const rawData: Song[] = await res.json();
+//     return addSerialNumbers({ songs: rawData });
+// };
+
 const fetcher = async (url: string): Promise<SongsData> => {
     const res = await fetch(url);
     if (!res.ok) {
         throw new Error(`Fetch failed: ${res.status}`);
     }
-    const rawData: Song[] = await res.json();
-    return addSerialNumbers({ songs: rawData });
-};
+    const rawJson = await res.json();
 
+    // The API now returns { items: [...] }
+    const items = rawJson.items ?? [];
+
+    // Map API fields -> your Song type
+    const mappedSongs: Song[] = items.map((item: any) => ({
+        id: item.id,
+        name: item.song_name,          // was "name"
+        artist: item.artists ?? "Unknown Artist",
+        album_art: item.image_url,     // was "album_art"
+        spotify_url: item.spotify_url,
+    }));
+
+    return addSerialNumbers({ songs: mappedSongs });
+};
 
 type Song = {
     id: string;
     name: string;
     artist: string;
     album_art: string;
-    serial?: number; // optional at first, will be added
-    spotify_url: string
+    serial?: number;
+    spotify_url: string;
+    album_id?: string;
+    album_name?: string;
+    album_url?: string;
 };
+
 
 type SongsData = {
     songs: Song[];
@@ -178,8 +203,8 @@ export function Table({ className }: { className?: string }) {
     // const response = await fetch(LOCAL_FETCH_URL)
 
     // const data = await response.json()
-    console.log("Fetch URL:", `${process.env.NEXT_PUBLIC_SERVER_URL}/songs/spotify`);
-    const { data: SongsData, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_SERVER_URL}/songs/spotify`, fetcher)
+    console.log("Fetch URL:", `${process.env.NEXT_PUBLIC_SPOTIFY_LIKED_ENDPOINT}`);
+    const { data: SongsData, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_SPOTIFY_LIKED_ENDPOINT}`, fetcher)
 
     const [songDataTable, setSongDataTable] = useState<Song[]>([]);
     const [sorting, setSorting] = useState([])
@@ -243,7 +268,7 @@ export function Table({ className }: { className?: string }) {
         columnHelper.accessor("artist", {
             // cell is a callback fun, returns, that we named info
             cell: (info) => (
-                <span className='italic text-white/70 grid  content-center'>{info.getValue()}</span>
+                <span className='italic text-white/70 grid  content-center overflow-auto max-w-lg'>{info.getValue()}</span>
             ),
             header: () => (
                 <span className='flex items-center '>
